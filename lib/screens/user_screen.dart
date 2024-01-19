@@ -1,8 +1,10 @@
 import 'dart:developer';
 import 'package:api_project/models/signup_response_model.dart';
+import 'package:api_project/screens/home_screen.dart';
 import 'package:api_project/screens/update_screen.dart';
 import 'package:api_project/services/delete_api_service.dart';
 import 'package:api_project/services/get_api_service.dart';
+import 'package:api_project/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 
 class UserScreen extends StatefulWidget {
@@ -25,6 +27,7 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+      leading: BackButtonWidget(onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context)=>HomeScreen()))),
         backgroundColor: Colors.white,
         title: const Text(
           'User Details',
@@ -38,7 +41,7 @@ class _UserScreenState extends State<UserScreen> {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(
-              child: Text('Error: ${snapshot.error}'),
+              child: Text('Error occured: ${snapshot.error}'),
             );
           } else if (!snapshot.hasData) {
             return const Center(

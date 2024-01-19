@@ -1,7 +1,10 @@
 import 'package:api_project/models/signup_request_model.dart';
+import 'package:api_project/screens/home_screen.dart';
 import 'package:api_project/screens/user_screen.dart';
 import 'package:api_project/services/post_api_service.dart';
 import 'package:api_project/utils/signup_verification.dart';
+import 'package:api_project/widgets/back_button.dart';
+import 'package:api_project/widgets/link_buttons.dart';
 import 'package:api_project/widgets/radio_field.dart';
 import 'package:api_project/widgets/text_form_field.dart';
 
@@ -28,7 +31,9 @@ class _MyWidgetState extends State<RegisterScreen> {
 
   Widget buildBody() {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: BackButtonWidget(onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context)=>const HomeScreen()))),
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -160,47 +165,7 @@ class _MyWidgetState extends State<RegisterScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 45, vertical: 20),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: Image.asset("assets/images/facebook.png",
-                            fit: BoxFit.contain),
-                      ),
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 45, vertical: 20),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8))),
-                        onPressed: () {},
-                        child: Image.asset(
-                          "assets/images/google.png",
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 45, vertical: 20),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8))),
-                        onPressed: () {},
-                        child: Image.asset(
-                          "assets/images/apple.png",
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ],
-                  ),
+                  LinkButtonWidget(),
                   const SizedBox(
                     height: 100,
                   ),

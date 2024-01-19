@@ -3,6 +3,7 @@ import 'package:api_project/models/signup_request_model.dart';
 import 'package:api_project/screens/user_screen.dart';
 import 'package:api_project/services/update_api_service.dart';
 import 'package:api_project/utils/signup_verification.dart';
+import 'package:api_project/widgets/back_button.dart';
 import 'package:api_project/widgets/radio_field.dart';
 import 'package:api_project/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   Widget buildBody() {
     return Scaffold(
       appBar: AppBar(
+         leading: BackButtonWidget(onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context)=>const UserScreen()))),
         centerTitle: true,
         title: const Text(
           "Update Screen",
