@@ -86,15 +86,23 @@ class _UserScreenState extends State<UserScreen> {
                               content: Text("User Deleted"),
                               duration: Duration(seconds: 2),
                             );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
+                            if (context.mounted) {
+                              //throwing the warning that buildcontext can't be used in async
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
                           } else {
                             log("Failed to Delete");
                             const snackBar = SnackBar(
                                 content: Text("Failed to Delete"),
                                 duration: Duration(seconds: 2));
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
+                            if (context.mounted) {
+                              //throwing the warning that buildcontext can't be used in async
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
                           }
                         },
                       ),
@@ -108,10 +116,10 @@ class _UserScreenState extends State<UserScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => UpdateScreen(
-                                        userName: user.name ,
-                                        userId: user.id ??0,
-                                        userEmail: user.email ,
-                                        userGender: user.gender ,
+                                        userName: user.name,
+                                        userId: user.id ?? 0,
+                                        userEmail: user.email,
+                                        userGender: user.gender,
                                         userStatus: "Active",
                                       )));
                           setState(() {

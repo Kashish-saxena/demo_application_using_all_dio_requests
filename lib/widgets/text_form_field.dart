@@ -7,7 +7,6 @@ class TextFormFieldWidget extends StatelessWidget {
     required this.obscureText,
     required this.controller,
     required this.validator,
-  
   });
   final FormFieldValidator? validator;
   final String text;
@@ -29,7 +28,6 @@ class TextFormFieldWidget extends StatelessWidget {
         obscureText: obscureText,
         validator: validator,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-       
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: text,

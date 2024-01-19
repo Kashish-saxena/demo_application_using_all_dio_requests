@@ -1,6 +1,6 @@
 class Verification {
   static String? isNameValid(String name) {
-    String pattern = r'^[A-Za-z]+$';
+    String pattern = r'^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$';
     RegExp regExp = RegExp(pattern);
     if (name.isEmpty) {
       return "Enter name";

@@ -1,4 +1,5 @@
 import 'package:api_project/screens/register_screen.dart';
+import 'package:api_project/screens/user_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,43 +22,62 @@ class _HomeScreenState extends State<HomeScreen> {
               fit: BoxFit.cover,
             ),
             Positioned(
-              bottom: 200,
-              left: 30,
-              width: MediaQuery.of(context).size.width / 1.2,
-              height: 60,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff1E232C),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+              bottom: 150,
+              left: 15,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "WELCOME",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
                   ),
-                  onPressed: () {},
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(color: Colors.white),
-                  )),
-            ),
-            Positioned(
-              bottom: 120,
-              left: 30,
-              width: MediaQuery.of(context).size.width / 1.2,
-              height: 60,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 2),
-                        borderRadius: BorderRadius.circular(8)),
+                  const SizedBox(
+                    height: 50,
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RegisterScreen()));
-                  },
-                  child: const Text(
-                    "Register",
-                    style: TextStyle(color: Colors.black),
-                  )),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 150, vertical: 15),
+                      backgroundColor: const Color(0xff1E232C),
+                      shape: RoundedRectangleBorder(
+                          side: const BorderSide(width: 2),
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserScreen()));
+                    },
+                    child: const Text(
+                      "Users Data",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 160, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                            side: const BorderSide(width: 2),
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterScreen()));
+                      },
+                      child: const Text(
+                        "Register",
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                      )),
+                ],
+              ),
             ),
           ],
         ),

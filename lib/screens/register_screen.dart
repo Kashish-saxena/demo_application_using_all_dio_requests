@@ -41,7 +41,7 @@ class _MyWidgetState extends State<RegisterScreen> {
                     "Hello! Register to get started",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   TextFormFieldWidget(
@@ -72,9 +72,9 @@ class _MyWidgetState extends State<RegisterScreen> {
                         Flexible(
                           child: ListTile(
                             contentPadding: EdgeInsets.zero,
-                            textColor: Color(0xff8391A1),
+                            textColor: const Color(0xff8391A1),
                             leading: Radio(
-                                value: "Male",
+                                value: "male",
                                 groupValue: gender,
                                 onChanged: (value) {
                                   setState(() {
@@ -86,10 +86,10 @@ class _MyWidgetState extends State<RegisterScreen> {
                         ),
                         Flexible(
                           child: ListTile(
-                            textColor: Color(0xff8391A1),
+                            textColor: const Color(0xff8391A1),
                             contentPadding: EdgeInsets.zero,
                             leading: Radio(
-                                value: "Female",
+                                value: "female",
                                 groupValue: gender,
                                 onChanged: (value) {
                                   setState(() {
@@ -113,9 +113,10 @@ class _MyWidgetState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(8)),
                     ),
                     onPressed: () async {
+                      SnackBar snackBar;
                       if (_registerKey.currentState!.validate()) {
-                        const snackBar =
-                            SnackBar(content: Text('User Registered!'));
+                        snackBar =
+                            const SnackBar(content: Text('User Registered!'));
                         SignUpRequestModel signUpRequestModel =
                             SignUpRequestModel(
                                 name: nameController.text,
@@ -124,18 +125,21 @@ class _MyWidgetState extends State<RegisterScreen> {
                                 status: "Active");
                         bool isSuccess =
                             await PostApiService.postData(signUpRequestModel);
-                        if (isSuccess) {
+                        if (isSuccess && context.mounted) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const UserScreen(),
                               ));
                         } else {
-                          const snackBar = SnackBar(
-                              content: const Text('User Not Registered!'));
+                          snackBar = const SnackBar(
+                              content: Text('User Not Registered!'));
                         }
 
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        if (context.mounted) {
+                          //throwing the warning that buildcontext can't be used in async
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       }
                     },
                     child: const Text("Register",
@@ -161,7 +165,7 @@ class _MyWidgetState extends State<RegisterScreen> {
                     children: [
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 45, vertical: 20),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -173,7 +177,7 @@ class _MyWidgetState extends State<RegisterScreen> {
                       ),
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 45, vertical: 20),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8))),
@@ -185,7 +189,7 @@ class _MyWidgetState extends State<RegisterScreen> {
                       ),
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 45, vertical: 20),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8))),
