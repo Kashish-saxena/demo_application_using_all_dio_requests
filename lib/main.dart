@@ -1,5 +1,5 @@
-import 'package:api_project/screens/home_screen.dart';
-
+import 'package:api_project/screens/welcome_screen.dart';
+import 'package:api_project/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.white, background: Colors.white),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }

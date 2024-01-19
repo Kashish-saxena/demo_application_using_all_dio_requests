@@ -7,6 +7,7 @@ import 'package:api_project/widgets/back_button.dart';
 import 'package:api_project/widgets/radio_field.dart';
 import 'package:api_project/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class UpdateScreen extends StatefulWidget {
   const UpdateScreen(
@@ -48,151 +49,153 @@ class _UpdateScreenState extends State<UpdateScreen> {
   }
 
   Widget buildBody() {
-    return Scaffold(
-      appBar: AppBar(
-         leading: BackButtonWidget(onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context)=>const UserScreen()))),
-        centerTitle: true,
-        title: const Text(
-          "Update Screen",
-          style: TextStyle(color: Colors.black),
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
+        Navigator.pop(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            "Update Screen",
+            style: TextStyle(color: Colors.black),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: Form(
-            key: _updateKey,
-            child: Column(
-              children: [
-                TextFormFieldWidget(
-                  validator: (val) {
-                    return Verification.isNameValid(val);
-                  },
-                  obscureText: false,
-                  controller: nameController,
-                  text: "Name",
-                ),
-                TextFormFieldWidget(
+        body: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: Form(
+              key: _updateKey,
+              child: Column(
+                children: [
+                  TextFormFieldWidget(
                     validator: (val) {
-                      return Verification.isEmailValid(val);
+                      return Verification.isNameValid(val);
                     },
                     obscureText: false,
-                    controller: emailController,
-                    text: "Email"),
-                RadioFieldWidget(
-                  widget: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text("Gender",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Color(0xff8391A1))),
-                      Flexible(
-                        child: ListTile(
-                          textColor: const Color(0xff8391A1),
-                          contentPadding: EdgeInsets.zero,
-                          leading: Radio(
-                              value: "male",
-                              groupValue: gender,
-                              onChanged: (value) {
-                                setState(() {
-                                  gender = value;
-                                });
-                              }),
-                          title: const Text("Male"),
-                        ),
-                      ),
-                      Flexible(
-                        child: ListTile(
-                          textColor: const Color(0xff8391A1),
-                          contentPadding: EdgeInsets.zero,
-                          leading: Radio(
-                              value: "female",
-                              groupValue: gender,
-                              onChanged: (value) {
-                                setState(() {
-                                  gender = value;
-                                });
-                              }),
-                          title: const Text("Female"),
-                        ),
-                      )
-                    ],
+                    controller: nameController,
+                    text: "Name",
                   ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(370, 60),
-                    backgroundColor: const Color(0xff1E232C),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                  TextFormFieldWidget(
+                      validator: (val) {
+                        return Verification.isEmailValid(val);
+                      },
+                      obscureText: false,
+                      controller: emailController,
+                      text: "Email"),
+                  RadioFieldWidget(
+                    widget: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Text("Gender",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Color(0xff8391A1))),
+                        Flexible(
+                          child: ListTile(
+                            textColor: const Color(0xff8391A1),
+                            contentPadding: EdgeInsets.zero,
+                            leading: Radio(
+                                value: "male",
+                                groupValue: gender,
+                                onChanged: (value) {
+                                  setState(() {
+                                    gender = value;
+                                  });
+                                }),
+                            title: const Text("Male"),
+                          ),
+                        ),
+                        Flexible(
+                          child: ListTile(
+                            textColor: const Color(0xff8391A1),
+                            contentPadding: EdgeInsets.zero,
+                            leading: Radio(
+                                value: "female",
+                                groupValue: gender,
+                                onChanged: (value) {
+                                  setState(() {
+                                    gender = value;
+                                  });
+                                }),
+                            title: const Text("Female"),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  onPressed: () async {
-                    if (_updateKey.currentState!.validate()) {
-                      String updatedName = nameController.text;
-                      String updatedEmail = emailController.text;
-                      String updatedGender = gender ?? "";
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(370, 60),
+                      backgroundColor: const Color(0xff1E232C),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    onPressed: () async {
+                      if (_updateKey.currentState!.validate()) {
+                        String updatedName = nameController.text;
+                        String updatedEmail = emailController.text;
+                        String updatedGender = gender ?? "";
 
-                      if (updatedName != widget.userName ||
-                          updatedEmail != widget.userEmail ||
-                          updatedGender != widget.userGender) {
-                        SignUpRequestModel signUpRequestModel =
-                            SignUpRequestModel(
-                          name: updatedName,
-                          email: updatedEmail,
-                          gender: updatedGender,
-                          status: "Active",
-                        );
-                        bool isSuccess = await UpdateApiService.updateUser(
-                          widget.userId,
-                          signUpRequestModel,
-                        );
-                        if (isSuccess && context.mounted) {
-                          const snackBar = SnackBar(
-                            content: Text("User Details updated"),
-                            duration: Duration(seconds: 2),
+                        if (updatedName != widget.userName ||
+                            updatedEmail != widget.userEmail ||
+                            updatedGender != widget.userGender) {
+                          SignUpRequestModel signUpRequestModel =
+                              SignUpRequestModel(
+                            name: updatedName,
+                            email: updatedEmail,
+                            gender: updatedGender,
+                            status: "Active",
                           );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const UserScreen()));
-                        } else {
-                          log("Failed to load because email already exists...");
-                          const snackBar = SnackBar(
-                            content: Text(
-                                "Failed to load because email already exists..."),
-                            duration: Duration(seconds: 2),
+                          bool isSuccess = await UpdateApiService.updateUser(
+                            widget.userId,
+                            signUpRequestModel,
                           );
-                          if (context.mounted) {
-                            //throwing the warning that buildcontext can't be used in async
+                          if (isSuccess) {
+                            Navigator.pop(context);
+                            const snackBar = SnackBar(
+                              content: Text("User Details updated"),
+                              duration: Duration(seconds: 2),
+                            );
 
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
+                          } else {
+                            log("No changes detected");
+                            const snackBar = SnackBar(
+                              content: Text("No Changes detected"),
+                              duration: Duration(seconds: 2),
+                            );
+                            if (context.mounted) {
+                              //throwing the warning that buildcontext can't be used in async
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
                           }
+                        } else {
+                          log("No Changes detected");
+                          const snackBar = SnackBar(
+                            content: Text("No Changes detected"),
+                            duration: Duration(seconds: 2),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
-                      } else {
-                        log("Failed to load because email already exists...");
-                        const snackBar = SnackBar(
-                          content: Text(
-                              "Failed to load because email already exists..."),
-                          duration: Duration(seconds: 2),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
-                    }
-                  },
-                  child: const Text("Update",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600)),
-                ),
-              ],
+                    },
+                    child: const Text("Update",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600)),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
